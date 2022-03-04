@@ -1,15 +1,12 @@
-.element__like-button {
+.card__like-button {
   background: url(../../../images/like.png) center no-repeat;
   width: 22px;
   height: 19px;
-  position: absolute;
-  right: 20px;
-  bottom: 30px;
   opacity: 1;
   transition: opacity .4s linear;
   cursor: pointer;
 }
 
-.element__like-button:hover {
+.card__like-button:hover {
   opacity: .5;
 }

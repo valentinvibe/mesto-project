@@ -1,11 +1,10 @@
-.element__description {
+.card__description {
   font-size: 24px;
   font-weight: 900;
   line-height: 29px;
-  margin: 20px 40px 27px 21px;
-  padding: 0;
-  vertical-align: baseline;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+  margin: 0;
+  padding: 0;
 }
