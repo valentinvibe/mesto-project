@@ -5,6 +5,7 @@
   opacity: 1;
   transition: opacity .4s linear;
   cursor: pointer;
+  border: none;
 }
 
 .card__like-button:hover {

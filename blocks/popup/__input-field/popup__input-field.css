@@ -1,14 +1,16 @@
-.form__input-field {
+.popup__input-field {
   color: #000;
   width: 100%;
   margin-bottom: 30px;
   font-size: 14px;
   line-height: 17px;
   padding-bottom: 9px;
+  padding-left: 0;
+  padding-right: 0;
   border: 0;
   border-bottom: 1px solid rgba(0,0,0,.2);
 }
 
-.form__input-field:focus {
+.popup__input-field:focus {
   outline:none;
 }
