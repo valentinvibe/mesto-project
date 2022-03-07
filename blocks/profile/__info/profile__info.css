@@ -3,13 +3,13 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  max-width: 337px;
+  max-width: 340px;
   justify-content: space-between;
 }
 
 @media screen and (max-width: 767px) {
   .profile__info {
-    max-width: 300px;
+    max-width: 282px;
     justify-content: center;
   }
 }
