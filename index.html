@@ -19,8 +19,8 @@
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button type="button" class="profile__edit-button"></button>
         <p class="profile__description">Исследователь океана</p>
-
       </div>
+
       <button type="button" class="profile__add-button"></button>
     </section>
 
@@ -105,7 +105,7 @@
     <div class="popup__container">
       <button type="button" class="popup__close-button"></button>
       <h2 class="popup__title">Новое место</legend>
-      <form name="userInfo" class="popup__form">
+      <form name="newPlace" class="popup__form">
         <fieldset class="popup__contact-info">
           <input type="text" name="place-name" class="popup__input-field" placeholder="Название">
           <input type="url" name="place-link" class="popup__input-field" placeholder="Ссылка на картинку">
@@ -115,13 +115,24 @@
     </div>
   </div>
 
-  <div class="popup popup_big-image popup_opened">
+  <div class="popup popup_big-image">
     <figure class="popup__img-container">
       <button type="button" class="popup__close-button"></button>
-      <img src="./images/saint-peterburg.jpg" alt="" class="popup__big-img">
-      <figcaption class="popup__img-description">sddfsdf</figcaption>
+      <img src="#" alt="" class="popup__big-img">
+      <figcaption class="popup__img-description"></figcaption>
     </figure>
   </div>
+
+  <template id="card-template">
+    <article class="card">
+      <img src="#" alt="" class="card__image">
+      <button type="button" class="card__remove-button"></button>
+      <div class="card__info-container">
+        <h2 class="card__description"></h2>
+        <button type="button" class="card__like-button"></button>
+      </div>
+    </article>
+  </template>
 
 <script src="./pages/index.js"></script>
 </body>
