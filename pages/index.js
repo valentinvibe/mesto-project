@@ -20,6 +20,37 @@ const editProfileBtn = document.querySelector('.profile__edit-button'),
       popupImgDesc = document.querySelector('.popup__img-description'),
       cardsImages = document.querySelectorAll('.card__image');
 
+const initialCards = [
+  {
+    name: 'Архыз',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
+  },
+  {
+    name: 'Челябинская область',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
+  },
+  {
+    name: 'Иваново',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
+  },
+  {
+    name: 'Камчатка',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
+  },
+  {
+    name: 'Холмогорский район',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
+  },
+  {
+    name: 'Байкал',
+    link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
+  }
+];
+
+initialCards.forEach(card => {
+  createCard(card.name, card.link);
+})
+
 editProfileBtn.addEventListener('click', () => {
   editProfilePopup.classList.add('popup_opened');
   inputUserName.value = document.querySelector('.profile__title').textContent;
@@ -69,12 +100,14 @@ function updateUsefInfo(name,bio) {
   document.querySelector('.profile__description').textContent = bio;
 }
 
-formEditProfile.addEventListener('submit', (e) => {
+function formSubmitHandlerProfile(e) {
   e.preventDefault();
   updateUsefInfo(inputUserName.value, inputUserBio.value);
   formEditProfile.reset();
   editProfilePopup.classList.remove('popup_opened');
-});
+};
+
+formEditProfile.addEventListener('submit', formSubmitHandlerProfile);
 
 
 
@@ -100,12 +133,15 @@ function renderCard(card) {
   cardsContainer.prepend(card);
 };
 
-formNewPlace.addEventListener('submit', (e) => {
+// NewPlace
+function formSubmitHandlerPlace(e) {
   e.preventDefault();
   createCard(namePlace.value, linkPlace.value);
   formNewPlace.reset();
   newPlacePopup.classList.remove('popup_opened');
-});
+}
+
+formNewPlace.addEventListener('submit', formSubmitHandlerPlace);
 
 
 // OpenPopupBigImg
