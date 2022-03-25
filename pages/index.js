@@ -107,10 +107,10 @@ function createCard(name,link) {
   const btnLike = cardElement.querySelector('.card__like-button'),
         btnDel = cardElement.querySelector('.card__remove-button');
 
-  btnDel.addEventListener('click', (e) => {
+  btnDel.addEventListener('click', () => {
     btnDel.closest('.card').remove();
   });
-  btnLike.addEventListener('click', (e) => {
+  btnLike.addEventListener('click', () => {
     btnLike.classList.toggle('card__like-button_active');
   });
   cardElement.querySelector('.card__image').addEventListener('click', () => {
