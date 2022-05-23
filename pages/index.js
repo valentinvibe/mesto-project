@@ -17,7 +17,8 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       bigImage = document.querySelector('.popup__big-img'),
       popupImgDesc = document.querySelector('.popup__img-description'),
       titleProfile = document.querySelector('.profile__title'),
-      descProfile = document.querySelector('.profile__description');
+      descProfile = document.querySelector('.profile__description'),
+      popups = document.querySelectorAll('.popup');
 
 const initialCards = [
   {
