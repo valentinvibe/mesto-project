@@ -142,3 +142,19 @@ function showBigImg(name,link) {
   popupImgDesc.textContent = name;
   openPopup(popupImage);
 };
+
+/* Close Popups ESC & click overlay*/
+popups.forEach(popup => {
+  popup.addEventListener('click', (e) => {
+    if (e.target.classList.contains('popup')) {
+      closePopup(popup);
+    }
+  })
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    const target = document.querySelector('.popup_opened');
+    closePopup(target);
+  }
+})
