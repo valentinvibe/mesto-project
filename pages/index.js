@@ -164,38 +164,36 @@ document.addEventListener('keydown', (e) => {
 
 /* Validation Forms */
 
-function showInputError(formElement, inputElement, errorMessage) {
+function showInputError(formElement, inputElement, errorMessage, inputErrorClass, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  console.log(errorElement);
-  inputElement.classList.add('popup__input-field_type_error');
+  inputElement.classList.add(inputErrorClass);
   errorElement.textContent = errorMessage;
-  errorElement.classList.add('popup__input-error_active');
+  errorElement.classList.add(errorClass);
 };
 
-function hideInputError(formElement, inputElement) {
+function hideInputError(formElement, inputElement, inputErrorClass, errorClass) {
   const errorElement = formElement.querySelector(`#${inputElement.id}-error`);
-  inputElement.classList.remove('popup__input-field_type_error');
-  errorElement.classList.remove('popup__input-error_active');
+  inputElement.classList.remove(inputErrorClass);
+  errorElement.classList.remove(errorClass);
   errorElement.textContent = '';
 };
 
-function checkInputValidity(formElement, inputElement) {
+function checkInputValidity(formElement, inputElement, inputErrorClass, errorClass) {
   if (!inputElement.validity.valid) {
-    showInputError(formElement, inputElement, inputElement.validationMessage);
+    showInputError(formElement, inputElement, inputElement.validationMessage, inputErrorClass, errorClass);
   } else {
-    hideInputError(formElement, inputElement);
+    hideInputError(formElement, inputElement, inputErrorClass, errorClass);
   }
 };
 
-function setEventListeners(formElement) {
-  const inputList = Array.from(formElement.querySelectorAll('.popup__input-field'));
-  const buttonElement = formElement.querySelector('.popup__submit-button');
-  console.log(buttonElement);
-  toggleButtonState(inputList, buttonElement);
+function setEventListeners(formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass) {
+  const inputList = Array.from(formElement.querySelectorAll(inputSelector));
+  const buttonElement = formElement.querySelector(submitButtonSelector);
+  toggleButtonState(inputList, buttonElement, inactiveButtonClass);
   inputList.forEach(inputElement => {
     inputElement.addEventListener('input', () => {
-      checkInputValidity(formElement, inputElement);
-      toggleButtonState(inputList, buttonElement);
+      checkInputValidity(formElement, inputElement, inputErrorClass, errorClass);
+      toggleButtonState(inputList, buttonElement, inactiveButtonClass);
     });
   });
 };
@@ -206,21 +204,30 @@ function hasInvalidInput(inputList) {
   })
 };
 
-function toggleButtonState(inputList, buttonElement) {
+function toggleButtonState(inputList, buttonElement, inactiveButtonClass) {
   if (hasInvalidInput(inputList)) {
-    buttonElement.classList.add('popup__submit-button_inactive');
+    buttonElement.classList.add(inactiveButtonClass);
     buttonElement.setAttribute('disabled','');
   } else {
-    buttonElement.classList.remove('popup__submit-button_inactive');
+    buttonElement.classList.remove(inactiveButtonClass);
     buttonElement.removeAttribute('disabled');
   }
 };
 
-function enableValidation() {
-  const formList = Array.from(document.querySelectorAll('.popup__form'));
+function enableValidation({formSelector, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass}) {
+  const formList = Array.from(document.querySelectorAll(formSelector));
   formList.forEach(formElement => {
-    setEventListeners(formElement);
+    setEventListeners(formElement, inputSelector, submitButtonSelector, inactiveButtonClass, inputErrorClass, errorClass);
   });
 }
 
-enableValidation();
+enableValidation(
+  {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input-field',
+    submitButtonSelector: '.popup__submit-button',
+    inactiveButtonClass: 'popup__submit-button_inactive',
+    inputErrorClass: 'popup__input-field_type_error',
+    errorClass: 'popup__input-error_active'
+  }
+);
