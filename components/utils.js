@@ -6,9 +6,12 @@ import {
   inputUserName,
   inputUserBio,
   formEditProfile,
-  popupEditProfile
+  popupEditProfile,
+  newPlacePopup,
+  formNewPlace
 } from "./constants.js";
 import { closePopup } from "./modal.js"
+import { renderCard, createCard } from "./card.js";
 
 function updateUsefInfo(name,bio) {
   titleProfile.textContent = name;
