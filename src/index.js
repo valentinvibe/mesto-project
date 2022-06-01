@@ -1,5 +1,7 @@
-import enableValidation from "../components/validate.js";
-import {initialCards} from "../components/initialCards.js";
+import './pages/index.css';
+
+import enableValidation from "./components/validate.js";
+import {initialCards} from "./components/initialCards.js";
 import {
     btnEditProfile,
     popupEditProfile,
@@ -14,13 +16,13 @@ import {
     inputUserName,
     inputUserBio,
     popups
-} from "../components/constants.js";
-import { createCard, renderCard } from "../components/card.js";
-import { openPopup, closePopup } from "../components/modal.js"
+} from "./components/constants.js";
+import { createCard, renderCard } from "./components/card.js";
+import { openPopup, closePopup } from "./components/modal.js"
 import {
   formSubmitHandlerProfile,
   formSubmitHandlerPlace
-} from "../components/utils.js";
+} from "./components/utils.js";
 
 
 
