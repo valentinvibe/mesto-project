@@ -5,16 +5,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mesto</title>
-  <link rel="stylesheet" href="./pages/index.css">
+  <!-- <link rel="stylesheet" href="./pages/index.css"> -->
+  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
 </head>
 <body class="page">
   <header class="header">
-    <a href="#"><img src="./images/logo.svg" alt="Логотип" class="header__logo"></a>
+    <a href="#"><img src="<%=require('./images/logo.svg')%>" alt="Логотип" class="header__logo"></a>
+
   </header>
 
   <main class="content">
     <section class="profile">
-      <img src="./images/avatar.jpg" alt="Аватар пользователя" class="profile__avatar">
+      <img src="<%=require('./images/avatar.jpg')%>" alt="Аватар пользователя" class="profile__avatar">
       <div class="profile__info">
         <h1 class="profile__title">Жак-Ив Кусто</h1>
         <button type="button" class="profile__edit-button"></button>
@@ -37,10 +39,17 @@
     <div class="popup__container">
       <button type="button" class="popup__close-button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
-      <form name="userInfo" class="popup__form">
+      <form name="userInfo" class="popup__form" novalidate>
         <fieldset class="popup__contact-info">
-          <input type="text" name="user-name" class="popup__input-field" placeholder="Жак-Ив Кусто">
-          <input type="text" name="user-bio" class="popup__input-field" placeholder="Исследователь океана">
+          <div class="popup__field">
+            <input type="text" id="user-input" name="user-name" class="popup__input-field" placeholder="Имя пользователя" minlength="2" maxlength="40" required>
+            <span class="popup__input-error" id="user-input-error"></span>
+          </div>
+          <div class="popup__field">
+            <input type="text" id="bio-input" name="user-bio" class="popup__input-field" placeholder="О себе" minlength="2" maxlength="200" required>
+            <span class="popup__input-error" id="bio-input-error"></span>
+          </div>
+
           <button type="submit" class="popup__submit-button">Сохранить</button>
         </fieldset>
       </form>
@@ -51,10 +60,17 @@
     <div class="popup__container">
       <button type="button" class="popup__close-button"></button>
       <h2 class="popup__title">Новое место</h2>
-      <form name="newPlace" class="popup__form">
+      <form name="newPlace" class="popup__form" novalidate>
         <fieldset class="popup__contact-info">
-          <input type="text" name="place-name" class="popup__input-field" placeholder="Название">
-          <input type="url" name="place-link" class="popup__input-field" placeholder="Ссылка на картинку">
+          <div class="popup__field">
+            <input type="text" id="name-input" name="place-name" class="popup__input-field" placeholder="Название" minlength="2" maxlength="30" required>
+            <span class="popup__input-error" id="name-input-error"></span>
+          </div>
+          <div class="popup__field">
+            <input type="url" id="link-input" name="place-link" class="popup__input-field" placeholder="Ссылка на картинку" required>
+            <span class="popup__input-error" id="link-input-error"></span>
+          </div>
+
           <button type="submit" class="popup__submit-button">Создать</button>
         </fieldset>
       </form>
@@ -80,6 +96,6 @@
     </article>
   </template>
 
-<script src="./pages/index.js"></script>
+<!-- <script type="module" src="./pages/index.js"></script> -->
 </body>
 </html>
