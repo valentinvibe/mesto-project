@@ -1,41 +1,25 @@
-import {
-  titleProfile,
-  descProfile,
-  namePlace,
-  linkPlace,
-  inputUserName,
-  inputUserBio,
-  formEditProfile,
-  popupEditProfile,
-  newPlacePopup,
-  formNewPlace
-} from "./constants.js";
-import { closePopup } from "./modal.js"
-import { renderCard, createCard } from "./card.js";
-
-function updateUsefInfo(name,bio) {
-  titleProfile.textContent = name;
-  descProfile.textContent = bio;
+function openPopup(popup) {
+  popup.classList.add('popup_opened');
+  document.addEventListener('keydown', closeByEscape);
 };
 
-function formSubmitHandlerProfile(e) {
-  e.preventDefault();
-  updateUsefInfo(inputUserName.value, inputUserBio.value);
-  formEditProfile.reset();
-  closePopup(popupEditProfile);
+function closePopup(popup) {
+  popup.classList.remove('popup_opened');
+  document.removeEventListener('keydown', closeByEscape);
 };
 
-function formSubmitHandlerPlace(e) {
-  e.preventDefault();
-  renderCard(createCard(namePlace.value, linkPlace.value));
-  closePopup(newPlacePopup);
-  formNewPlace.reset();
-};
+function closeByEscape(evt) {
+  if (evt.key === 'Escape') {
+    const openedPopup = document.querySelector('.popup_opened');
+    closePopup(openedPopup);
+  }
+}
+
+
 
 export {
-  updateUsefInfo,
-  formSubmitHandlerProfile,
-  formSubmitHandlerPlace
+  openPopup,
+  closePopup
 }
 
 
