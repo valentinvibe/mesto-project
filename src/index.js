@@ -5,12 +5,8 @@ import {initialCards} from "./components/initialCards.js";
 import {
     btnEditProfile,
     popupEditProfile,
-    btnCloseEditProfile,
     btnAddNewPlace,
     newPlacePopup,
-    newPlacePopupCloseBtn,
-    popupImage,
-    popupImageCloseBtn,
     formNewPlace,
     formEditProfile,
     inputUserName,
@@ -42,10 +38,6 @@ btnEditProfile.addEventListener('click', () => {
 
 btnAddNewPlace.addEventListener('click', () => {
   openPopup(newPlacePopup);
-});
-
-popupImageCloseBtn.addEventListener('click', () => {
-  closePopup(popupImage);
 });
 
 formEditProfile.addEventListener('submit', handleProfileFormSubmit);
