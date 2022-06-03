@@ -1,10 +1,13 @@
 import {cardTemplate, cardsContainer} from "./constants.js";
-import { showBigImg } from "./modal.js"
+import { showBigImg } from "./modal.js";
+
+
 
 function createCard(name,link) {
-  const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-  cardElement.querySelector('.card__image').src = link;
-  cardElement.querySelector('.card__image').alt = name;
+  const cardElement = cardTemplate.querySelector('.card').cloneNode(true),
+        cardImage = cardElement.querySelector('.card__image');
+  cardImage.src = link;
+  cardImage.alt = name;
   cardElement.querySelector('.card__description').textContent = name;
   const btnLike = cardElement.querySelector('.card__like-button'),
         btnDel = cardElement.querySelector('.card__remove-button');
@@ -15,7 +18,7 @@ function createCard(name,link) {
   btnLike.addEventListener('click', () => {
     btnLike.classList.toggle('card__like-button_active');
   });
-  cardElement.querySelector('.card__image').addEventListener('click', () => {
+  cardImage.addEventListener('click', () => {
     showBigImg(name,link);
   });
 
