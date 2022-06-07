@@ -13,7 +13,8 @@ import {
     inputUserBio,
     popups,
     titleProfile,
-    descProfile
+    descProfile,
+    avatarProfile
 } from "./components/constants.js";
 import { createCard, renderCard } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
@@ -21,8 +22,28 @@ import {
   handleProfileFormSubmit,
   handlePlaceFormSubmit,
 } from "./components/modal.js";
+import { getInitialCards, getUserInfo } from "./components/api.js";
 
 
+getUserInfo()
+  .then(data => {
+    titleProfile.textContent = data.name;
+    descProfile.textContent = data.about;
+    avatarProfile.src = data.avatar;
+  })
+
+getInitialCards()
+  .then(cards => {
+    if (cards.length > 0) {
+      cards.forEach(card => {
+        renderCard(createCard(card.name, card.link));
+      })
+    } else {
+      let text = document.createElement('p');
+      text.textContent = 'Нет карточек для отображения';
+      document.querySelector('.cards-container').before(text);
+    }
+  })
 
 initialCards.forEach(card => {
   renderCard(createCard(card.name, card.link));

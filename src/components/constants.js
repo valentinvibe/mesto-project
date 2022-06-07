@@ -15,7 +15,8 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       popupImgDesc = document.querySelector('.popup__img-description'),
       titleProfile = document.querySelector('.profile__title'),
       descProfile = document.querySelector('.profile__description'),
-      popups = document.querySelectorAll('.popup');
+      popups = document.querySelectorAll('.popup'),
+      avatarProfile = document.querySelector('.profile__avatar');
 
 export {
   btnEditProfile,
@@ -35,5 +36,6 @@ export {
   popupImgDesc,
   titleProfile,
   descProfile,
-  popups
+  popups,
+  avatarProfile
 }
