@@ -86,13 +86,26 @@
     </figure>
   </div>
 
+
+  <div class="popup popup_confirm">
+    <div class="popup__container">
+      <button type="button" class="popup__close-button"></button>
+      <h2 class="popup__title">Вы уверены?</h2>
+      <button type="button" class="popup__submit-button">Да</button>
+    </div>
+  </div>
+
   <template id="card-template">
     <article class="card">
       <img src="#" alt="" class="card__image">
       <button type="button" class="card__remove-button"></button>
       <div class="card__info-container">
         <h2 class="card__description"></h2>
-        <button type="button" class="card__like-button"></button>
+        <div class="card__likes-container">
+          <button type="button" class="card__like-button"></button>
+          <span class="card__likes-count"></span>
+        </div>
+        
       </div>
     </article>
   </template>

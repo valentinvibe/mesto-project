@@ -13,6 +13,8 @@ import {
   popupEditProfile
 } from "./constants.js";
 
+import { setUserInfo, addNewCard } from "./api.js";
+
 
 function updateUsefInfo(name,bio) {
   titleProfile.textContent = name;
@@ -22,12 +24,14 @@ function updateUsefInfo(name,bio) {
 function handleProfileFormSubmit(e) {
   e.preventDefault();
   updateUsefInfo(inputUserName.value, inputUserBio.value);
+  setUserInfo(inputUserName.value, inputUserBio.value);
   closePopup(popupEditProfile);
 };
 
 function handlePlaceFormSubmit(e) {
   e.preventDefault();
   renderCard(createCard(namePlace.value, linkPlace.value));
+  addNewCard(namePlace.value, linkPlace.value);
   closePopup(newPlacePopup);
   formNewPlace.reset();
   const btnSubmit = formNewPlace.querySelector('.popup__submit-button');

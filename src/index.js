@@ -14,29 +14,36 @@ import {
     popups,
     titleProfile,
     descProfile,
-    avatarProfile
+    avatarProfile,
+    popupConfirm,
+    btnConfirm
 } from "./components/constants.js";
-import { createCard, renderCard } from "./components/card.js";
+import { createCard, renderCard, cardToDel } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
 import {
   handleProfileFormSubmit,
   handlePlaceFormSubmit,
 } from "./components/modal.js";
-import { getInitialCards, getUserInfo } from "./components/api.js";
+import { getInitialCards, 
+         getUserInfo ,
+         deleteCard
+} from "./components/api.js";
 
+let userData = {}; //Сохраним информацию о пользователе в объекте
 
 getUserInfo()
   .then(data => {
     titleProfile.textContent = data.name;
     descProfile.textContent = data.about;
     avatarProfile.src = data.avatar;
-  })
+    return userData = data
+  });
 
 getInitialCards()
   .then(cards => {
     if (cards.length > 0) {
       cards.forEach(card => {
-        renderCard(createCard(card.name, card.link));
+        renderCard(createCard(card.name, card.link, card.likes, card.owner._id, card._id, userData));
       })
     } else {
       let text = document.createElement('p');
@@ -45,9 +52,9 @@ getInitialCards()
     }
   })
 
-initialCards.forEach(card => {
-  renderCard(createCard(card.name, card.link));
-});
+// initialCards.forEach(card => {
+//   renderCard(createCard(card.name, card.link));
+// });
 
 /* Set eventListeners */
 
@@ -91,3 +98,11 @@ enableValidation(
     errorClass: 'popup__input-error_active'
   }
 );
+
+
+btnConfirm.addEventListener('click', () => {
+  deleteCard(cardToDel[0]);
+  closePopup(popupConfirm);
+  document.querySelector(`#a${cardToDel[0]}`).remove();
+  cardToDel.pop();
+})

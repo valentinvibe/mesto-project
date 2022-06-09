@@ -16,7 +16,9 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       titleProfile = document.querySelector('.profile__title'),
       descProfile = document.querySelector('.profile__description'),
       popups = document.querySelectorAll('.popup'),
-      avatarProfile = document.querySelector('.profile__avatar');
+      avatarProfile = document.querySelector('.profile__avatar'),
+      popupConfirm = document.querySelector('.popup_confirm'),
+      btnConfirm = popupConfirm.querySelector('.popup__submit-button');
 
 export {
   btnEditProfile,
@@ -37,5 +39,7 @@ export {
   titleProfile,
   descProfile,
   popups,
-  avatarProfile
+  avatarProfile,
+  popupConfirm,
+  btnConfirm
 }
