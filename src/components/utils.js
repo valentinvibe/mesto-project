@@ -15,11 +15,21 @@ function closeByEscape(evt) {
   }
 }
 
+function setActiveLike(likesArr, userId, likeSelector) {
+  likesArr.forEach(element => {
+    if (element._id === userId) {
+      likeSelector.classList.add('card__like-button_active')
+      return;
+    }
+  });
+}
+
 
 
 export {
   openPopup,
-  closePopup
+  closePopup,
+  setActiveLike
 }
 
 

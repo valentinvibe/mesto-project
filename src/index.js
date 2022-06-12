@@ -43,7 +43,8 @@ getInitialCards()
   .then(cards => {
     if (cards.length > 0) {
       cards.forEach(card => {
-        renderCard(createCard(card.name, card.link, card.likes, card.owner._id, card._id, userData));
+        // renderCard(createCard(card.name, card.link, card.likes, card.owner._id, card._id, userData));
+        renderCard(createCard(card, userData));
       })
     } else {
       let text = document.createElement('p');

@@ -1,4 +1,4 @@
-import { renderCard, createCard } from "./card.js";
+// import { renderCard, createCard } from "./card.js";
 
 /* Получаем список всех карточек с сервера */
 function getInitialCards() {
@@ -14,6 +14,7 @@ function getInitialCards() {
       return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
     })
     .then((result) => {
+      console.log(result) // ---------------------------------------------------TEST----------------------
       return result
     })
     .catch(err => {
@@ -100,10 +101,60 @@ function deleteCard(id) {
   })
 }
 
+
+  /* Установка и удаление лайка карточки */
+
+function setLike(cardId,likeCount) {
+  fetch(`https://nomoreparties.co/v1/plus-cohort-11/cards/likes/${cardId}`, {
+    method: 'PUT',
+    headers: {
+      authorization: 'ae0b9021-b91d-4516-99a3-d1f2660c87bd',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
+  })
+  .then(data => {
+    likeCount.textContent = data.likes.length
+  })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+}
+
+function delLike(cardId,likeCount) {
+  fetch(`https://nomoreparties.co/v1/plus-cohort-11/cards/likes/${cardId}`, {
+    method: 'DELETE',
+    headers: {
+      authorization: 'ae0b9021-b91d-4516-99a3-d1f2660c87bd',
+      'Content-Type': 'application/json'
+    }
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
+  })
+  .then((data) => {
+    likeCount.textContent = data.likes.length
+  })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+}
+
+
   export {
     getInitialCards,
     getUserInfo,
     setUserInfo,
     addNewCard,
-    deleteCard
+    deleteCard,
+    setLike,
+    delLike
   }
