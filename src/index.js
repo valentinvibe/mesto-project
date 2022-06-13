@@ -16,7 +16,12 @@ import {
     descProfile,
     avatarProfile,
     popupConfirm,
-    btnConfirm
+    btnConfirm,
+    btnAvatarEdit,
+    popupAvatar,
+    btnAvatarSubmit,
+    formNewAvatar,
+    avaLink
 } from "./components/constants.js";
 import { createCard, renderCard, cardToDel } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
@@ -26,7 +31,8 @@ import {
 } from "./components/modal.js";
 import { getInitialCards, 
          getUserInfo ,
-         deleteCard
+         deleteCard,
+         setUserAvatar
 } from "./components/api.js";
 
 let userData = {}; //Сохраним информацию о пользователе в объекте
@@ -43,7 +49,6 @@ getInitialCards()
   .then(cards => {
     if (cards.length > 0) {
       cards.forEach(card => {
-        // renderCard(createCard(card.name, card.link, card.likes, card.owner._id, card._id, userData));
         renderCard(createCard(card, userData));
       })
     } else {
@@ -52,10 +57,6 @@ getInitialCards()
       document.querySelector('.cards-container').before(text);
     }
   })
-
-// initialCards.forEach(card => {
-//   renderCard(createCard(card.name, card.link));
-// });
 
 /* Set eventListeners */
 
@@ -73,6 +74,9 @@ formEditProfile.addEventListener('submit', handleProfileFormSubmit);
 
 formNewPlace.addEventListener('submit', handlePlaceFormSubmit);
 
+btnAvatarEdit.addEventListener('click', () => {
+  openPopup(popupAvatar);
+})
 
 /* Close Popups & click overlay*/
 
@@ -106,4 +110,11 @@ btnConfirm.addEventListener('click', () => {
   closePopup(popupConfirm);
   document.querySelector(`#a${cardToDel[0]}`).remove();
   cardToDel.pop();
+})
+
+formNewAvatar.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  setUserAvatar(avaLink.value)
+  formNewAvatar.reset();
+  closePopup(popupAvatar);
 })

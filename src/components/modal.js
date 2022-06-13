@@ -30,7 +30,12 @@ function handleProfileFormSubmit(e) {
 
 function handlePlaceFormSubmit(e) {
   e.preventDefault();
-  renderCard(createCard(namePlace.value, linkPlace.value));
+  const card = {
+    name: namePlace.value,
+    link: linkPlace.value
+  }
+  renderCard(createCard(card));
+  // renderCard(createCard(namePlace.value, linkPlace.value));
   addNewCard(namePlace.value, linkPlace.value);
   closePopup(newPlacePopup);
   formNewPlace.reset();

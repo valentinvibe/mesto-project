@@ -18,7 +18,12 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       popups = document.querySelectorAll('.popup'),
       avatarProfile = document.querySelector('.profile__avatar'),
       popupConfirm = document.querySelector('.popup_confirm'),
-      btnConfirm = popupConfirm.querySelector('.popup__submit-button');
+      btnConfirm = popupConfirm.querySelector('.popup__submit-button'),
+      btnAvatarEdit = document.querySelector('.profile__btn-edit'),
+      popupAvatar = document.querySelector('.popup_new-avatar'),
+      btnAvatarSubmit = popupAvatar.querySelector('.popup__submit-button'),
+      formNewAvatar = popupAvatar.querySelector('form'),
+      avaLink = formNewAvatar.querySelector('.popup__input-field');
 
 export {
   btnEditProfile,
@@ -41,5 +46,10 @@ export {
   popups,
   avatarProfile,
   popupConfirm,
-  btnConfirm
+  btnConfirm,
+  btnAvatarEdit,
+  popupAvatar,
+  btnAvatarSubmit,
+  formNewAvatar,
+  avaLink
 }

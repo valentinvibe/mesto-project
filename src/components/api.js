@@ -148,6 +148,25 @@ function delLike(cardId,likeCount) {
   })
 }
 
+function setUserAvatar(link) {
+  fetch(`https://nomoreparties.co/v1/plus-cohort-11/users/me/avatar`, {
+    method: 'PATCH',
+    headers: {
+      authorization: 'ae0b9021-b91d-4516-99a3-d1f2660c87bd',
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      avatar: link
+    })
+  })
+  .then(res => {
+    if (res.ok) {
+      return res.json()
+    }
+    return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
+  })
+}
+
 
   export {
     getInitialCards,
@@ -156,5 +175,6 @@ function delLike(cardId,likeCount) {
     addNewCard,
     deleteCard,
     setLike,
-    delLike
+    delLike,
+    setUserAvatar
   }
