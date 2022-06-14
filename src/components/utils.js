@@ -24,12 +24,31 @@ function setActiveLike(likesArr, userId, likeSelector) {
   });
 }
 
+function renderLoading(isLoading) {
+  const btnSubmit = document.querySelector('.popup_opened').querySelector('.popup__submit-button');
+  if (isLoading) {
+    btnSubmit.textContent = `Сохранение...`
+  } else if (btnSubmit.closest('.popup_new-place')) {
+    btnSubmit.textContent = `Создать`
+  } else {
+    btnSubmit.textContent = `Сохранить`
+  }
+
+}
+
+function setInactiveFormBtn(popup) {
+  const btnSubmit = popup.querySelector('.popup__submit-button');
+  btnSubmit.classList.add('popup__submit-button_inactive');
+  btnSubmit.setAttribute('disabled','');
+}
 
 
 export {
   openPopup,
   closePopup,
-  setActiveLike
+  setActiveLike,
+  renderLoading,
+  setInactiveFormBtn
 }
 
 

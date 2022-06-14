@@ -1,4 +1,7 @@
-// import { renderCard, createCard } from "./card.js";
+import { renderCard, createCard } from "./card.js";
+import { avatarProfile, popupEditProfile, popupAvatar, newPlacePopup} from "./constants.js";
+import { renderLoading, closePopup, setInactiveFormBtn } from "./utils.js";
+
 
 /* Получаем список всех карточек с сервера */
 function getInitialCards() {
@@ -56,15 +59,28 @@ function setUserInfo(name,about) {
   })
   })
   .then(res => {
+    renderLoading(true);
     if (res.ok) {
       return res.json()
     }
     return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
   })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+  .finally(() => {
+    renderLoading(false);
+  })
+  .finally(() => {
+    closePopup(popupEditProfile)
+  })
+  .finally(() => {
+    setInactiveFormBtn(popupEditProfile)
+  })
 }
 
 /* Добавляем новую карточку на сервер */
-function addNewCard(name, link) {
+function addNewCard(card, user) {
   fetch('https://nomoreparties.co/v1/plus-cohort-11/cards', {
     method: 'POST',
     headers: {
@@ -72,15 +88,31 @@ function addNewCard(name, link) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({
-      name: name,
-      link: link
+      name: card.name,
+      link: card.link
     })
   })
   .then(res => {
     if (res.ok) {
+      renderLoading(true);
       return res.json()
     }
     return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
+  })
+  .then(result => {
+    renderCard(createCard(result,user))
+  })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+  .finally(() => {
+    renderLoading(false);
+  })
+  .finally(() => {
+    closePopup(newPlacePopup)
+  })
+  .finally(() => {
+    setInactiveFormBtn(newPlacePopup)
   })
 }
 
@@ -161,9 +193,25 @@ function setUserAvatar(link) {
   })
   .then(res => {
     if (res.ok) {
+      renderLoading(true);
       return res.json()
     }
     return Promise.reject(`Ошибка ${res.status} : ${res.statusText}`)
+  })
+  .then(result => {
+    avatarProfile.src = result.avatar;
+  })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+  .finally(() => {
+    renderLoading(false);
+  })
+  .finally(() => {
+    closePopup(popupAvatar)
+  })
+  .finally(() => {
+    // setInactiveFormBtn(popupAvatar)
   })
 }
 

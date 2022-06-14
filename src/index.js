@@ -1,7 +1,6 @@
 import './pages/index.css';
 
 import enableValidation from "./components/validate.js";
-import {initialCards} from "./components/initialCards.js";
 import {
     btnEditProfile,
     popupEditProfile,
@@ -19,20 +18,18 @@ import {
     btnConfirm,
     btnAvatarEdit,
     popupAvatar,
-    btnAvatarSubmit,
-    formNewAvatar,
-    avaLink
+    formNewAvatar
 } from "./components/constants.js";
 import { createCard, renderCard, cardToDel } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
 import {
   handleProfileFormSubmit,
   handlePlaceFormSubmit,
+  handlerAvatarFormSubmit
 } from "./components/modal.js";
-import { getInitialCards, 
+import { getInitialCards,
          getUserInfo ,
-         deleteCard,
-         setUserAvatar
+         deleteCard
 } from "./components/api.js";
 
 let userData = {}; //Сохраним информацию о пользователе в объекте
@@ -72,7 +69,10 @@ btnAddNewPlace.addEventListener('click', () => {
 
 formEditProfile.addEventListener('submit', handleProfileFormSubmit);
 
-formNewPlace.addEventListener('submit', handlePlaceFormSubmit);
+formNewPlace.addEventListener('submit', (e) => {
+  e.preventDefault();
+  handlePlaceFormSubmit(userData);
+})
 
 btnAvatarEdit.addEventListener('click', () => {
   openPopup(popupAvatar);
@@ -104,17 +104,11 @@ enableValidation(
   }
 );
 
-
 btnConfirm.addEventListener('click', () => {
-  deleteCard(cardToDel[0]);
+  deleteCard(cardToDel);
   closePopup(popupConfirm);
-  document.querySelector(`#a${cardToDel[0]}`).remove();
-  cardToDel.pop();
+  const selectCard = document.querySelector(`#delete`);
+  selectCard.remove();
 })
 
-formNewAvatar.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  setUserAvatar(avaLink.value)
-  formNewAvatar.reset();
-  closePopup(popupAvatar);
-})
+formNewAvatar.addEventListener('submit', handlerAvatarFormSubmit)
