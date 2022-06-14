@@ -27,11 +27,11 @@ function setActiveLike(likesArr, userId, likeSelector) {
 function renderLoading(isLoading) {
   const btnSubmit = document.querySelector('.popup_opened').querySelector('.popup__submit-button');
   if (isLoading) {
-    btnSubmit.textContent = `Сохранение...`
+    btnSubmit.textContent = 'Сохранение...'
   } else if (btnSubmit.closest('.popup_new-place')) {
-    btnSubmit.textContent = `Создать`
+    btnSubmit.textContent = 'Создать'
   } else {
-    btnSubmit.textContent = `Сохранить`
+    btnSubmit.textContent = 'Сохранить'
   }
 
 }

@@ -1,17 +1,15 @@
 import { bigImage, popupImgDesc, popupImage } from "./constants.js"
-import { openPopup, closePopup, setInactiveFormBtn } from "./utils.js";
+import { openPopup } from "./utils.js";
 import {
   namePlace,
   linkPlace,
-  newPlacePopup,
   formNewPlace,
   inputUserName,
   inputUserBio,
   titleProfile,
   descProfile,
   avaLink,
-  formNewAvatar,
-  popupAvatar
+  formNewAvatar
 } from "./constants.js";
 
 import {
