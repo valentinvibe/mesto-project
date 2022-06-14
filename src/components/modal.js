@@ -1,18 +1,22 @@
 import { bigImage, popupImgDesc, popupImage } from "./constants.js"
-import { renderCard, createCard } from "./card.js";
-import { openPopup, closePopup } from "./utils.js";
+import { openPopup } from "./utils.js";
 import {
   namePlace,
   linkPlace,
-  newPlacePopup,
   formNewPlace,
   inputUserName,
   inputUserBio,
   titleProfile,
   descProfile,
-  popupEditProfile
+  avaLink,
+  formNewAvatar
 } from "./constants.js";
 
+import {
+  setUserInfo,
+  addNewCard,
+  setUserAvatar
+} from "./api.js";
 
 function updateUsefInfo(name,bio) {
   titleProfile.textContent = name;
@@ -22,18 +26,23 @@ function updateUsefInfo(name,bio) {
 function handleProfileFormSubmit(e) {
   e.preventDefault();
   updateUsefInfo(inputUserName.value, inputUserBio.value);
-  closePopup(popupEditProfile);
+  setUserInfo(inputUserName.value, inputUserBio.value);
 };
 
-function handlePlaceFormSubmit(e) {
-  e.preventDefault();
-  renderCard(createCard(namePlace.value, linkPlace.value));
-  closePopup(newPlacePopup);
+function handlePlaceFormSubmit(user) {
+  const card = {
+    name: namePlace.value,
+    link: linkPlace.value
+  }
+  addNewCard(card, user)
   formNewPlace.reset();
-  const btnSubmit = formNewPlace.querySelector('.popup__submit-button');
-  btnSubmit.classList.add('popup__submit-button_inactive');
-  btnSubmit.setAttribute('disabled','');
 };
+
+function handlerAvatarFormSubmit(e) {
+  e.preventDefault();
+  setUserAvatar(avaLink.value)
+  formNewAvatar.reset();
+}
 
 // OpenPopupBigImg
 function showBigImg(name,link) {
@@ -46,5 +55,6 @@ function showBigImg(name,link) {
 export {
   handleProfileFormSubmit,
   handlePlaceFormSubmit,
-  showBigImg
+  showBigImg,
+  handlerAvatarFormSubmit
 }

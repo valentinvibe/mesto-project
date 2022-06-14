@@ -1,7 +1,6 @@
 import './pages/index.css';
 
 import enableValidation from "./components/validate.js";
-import {initialCards} from "./components/initialCards.js";
 import {
     btnEditProfile,
     popupEditProfile,
@@ -13,20 +12,48 @@ import {
     inputUserBio,
     popups,
     titleProfile,
-    descProfile
+    descProfile,
+    avatarProfile,
+    popupConfirm,
+    btnConfirm,
+    btnAvatarEdit,
+    popupAvatar,
+    formNewAvatar
 } from "./components/constants.js";
-import { createCard, renderCard } from "./components/card.js";
+import { createCard, renderCard, cardToDel } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
 import {
   handleProfileFormSubmit,
   handlePlaceFormSubmit,
+  handlerAvatarFormSubmit
 } from "./components/modal.js";
+import { getInitialCards,
+         getUserInfo ,
+         deleteCard
+} from "./components/api.js";
 
+let userData = {}; //Сохраним информацию о пользователе в объекте
 
+getUserInfo()
+  .then(data => {
+    titleProfile.textContent = data.name;
+    descProfile.textContent = data.about;
+    avatarProfile.src = data.avatar;
+    return userData = data
+  });
 
-initialCards.forEach(card => {
-  renderCard(createCard(card.name, card.link));
-});
+getInitialCards()
+  .then(cards => {
+    if (cards.length > 0) {
+      cards.forEach(card => {
+        renderCard(createCard(card, userData));
+      })
+    } else {
+      let text = document.createElement('p');
+      text.textContent = 'Нет карточек для отображения';
+      document.querySelector('.cards-container').before(text);
+    }
+  })
 
 /* Set eventListeners */
 
@@ -42,8 +69,14 @@ btnAddNewPlace.addEventListener('click', () => {
 
 formEditProfile.addEventListener('submit', handleProfileFormSubmit);
 
-formNewPlace.addEventListener('submit', handlePlaceFormSubmit);
+formNewPlace.addEventListener('submit', (e) => {
+  e.preventDefault();
+  handlePlaceFormSubmit(userData);
+})
 
+btnAvatarEdit.addEventListener('click', () => {
+  openPopup(popupAvatar);
+})
 
 /* Close Popups & click overlay*/
 
@@ -70,3 +103,12 @@ enableValidation(
     errorClass: 'popup__input-error_active'
   }
 );
+
+btnConfirm.addEventListener('click', () => {
+  deleteCard(cardToDel);
+  closePopup(popupConfirm);
+  const selectCard = document.querySelector(`#delete`);
+  selectCard.remove();
+})
+
+formNewAvatar.addEventListener('submit', handlerAvatarFormSubmit)

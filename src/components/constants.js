@@ -15,7 +15,15 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       popupImgDesc = document.querySelector('.popup__img-description'),
       titleProfile = document.querySelector('.profile__title'),
       descProfile = document.querySelector('.profile__description'),
-      popups = document.querySelectorAll('.popup');
+      popups = document.querySelectorAll('.popup'),
+      avatarProfile = document.querySelector('.profile__avatar'),
+      popupConfirm = document.querySelector('.popup_confirm'),
+      btnConfirm = popupConfirm.querySelector('.popup__submit-button'),
+      btnAvatarEdit = document.querySelector('.profile__btn-edit'),
+      popupAvatar = document.querySelector('.popup_new-avatar'),
+      btnAvatarSubmit = popupAvatar.querySelector('.popup__submit-button'),
+      formNewAvatar = popupAvatar.querySelector('form'),
+      avaLink = formNewAvatar.querySelector('.popup__input-field');
 
 export {
   btnEditProfile,
@@ -35,5 +43,13 @@ export {
   popupImgDesc,
   titleProfile,
   descProfile,
-  popups
+  popups,
+  avatarProfile,
+  popupConfirm,
+  btnConfirm,
+  btnAvatarEdit,
+  popupAvatar,
+  btnAvatarSubmit,
+  formNewAvatar,
+  avaLink
 }
