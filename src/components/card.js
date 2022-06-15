@@ -32,9 +32,21 @@ function createCard(card, userInfo) {
     btnLike.classList.toggle('card__like-button_active');
 
     if (btnLike.classList.contains('card__like-button_active')) {
-      setLike(card._id, likeCount)
+      setLike(card._id)
+        .then(data => {
+          likeCount.textContent = data.likes.length
+        })
+        .catch(err => {
+          throw new Error(`${err.status} ${err.statusText}`)
+        })
     } else {
-      delLike(card._id, likeCount)
+      delLike(card._id)
+        .then((data) => {
+          likeCount.textContent = data.likes.length
+        })
+        .catch(err => {
+          throw new Error(`${err.status} ${err.statusText}`)
+        })
     }
   });
 

@@ -15,6 +15,13 @@ function closeByEscape(evt) {
   }
 }
 
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json()
+  }
+  return Promise.reject(`Ошибка ${res.status} ${res.statusText}`)
+}
+
 function setActiveLike(likesArr, userId, likeSelector) {
   likesArr.forEach(element => {
     if (element._id === userId) {
@@ -48,7 +55,8 @@ export {
   closePopup,
   setActiveLike,
   renderLoading,
-  setInactiveFormBtn
+  setInactiveFormBtn,
+  checkResponse
 }
 
 

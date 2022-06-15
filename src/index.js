@@ -40,7 +40,11 @@ getUserInfo()
     descProfile.textContent = data.about;
     avatarProfile.src = data.avatar;
     return userData = data
-  });
+  })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+
 
 getInitialCards()
   .then(cards => {
@@ -54,6 +58,10 @@ getInitialCards()
       document.querySelector('.cards-container').before(text);
     }
   })
+  .catch(err => {
+    throw new Error(`${err.status} ${err.statusText}`)
+  })
+
 
 /* Set eventListeners */
 
@@ -105,7 +113,10 @@ enableValidation(
 );
 
 btnConfirm.addEventListener('click', () => {
-  deleteCard(cardToDel);
+  deleteCard(cardToDel)
+    .catch(err => {
+      throw new Error(`${err.status} ${err.statusText}`)
+    })
   closePopup(popupConfirm);
   const selectCard = document.querySelector(`#delete`);
   selectCard.remove();
