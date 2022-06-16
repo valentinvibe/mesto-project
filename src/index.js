@@ -105,10 +105,9 @@ enableValidation(
 );
 
 btnConfirm.addEventListener('click', () => {
-  deleteCard(cardToDel)
+  deleteCard(cardToDel.id)
     .then(() => {
-      const selectCard = document.querySelector(`#a${cardToDel}`);
-      selectCard.remove();
+      cardToDel.remove();
       closePopup(popupConfirm);
     })
     .catch(err => {

@@ -22,29 +22,25 @@ function checkResponse(res) {
   return Promise.reject(`Ошибка ${res.status} ${res.statusText}`)
 }
 
-function setActiveLike(likesArr, userId, likeSelector) {
+function setActiveLike(likesArr, userId, likeBtn) {
   likesArr.forEach(element => {
     if (element._id === userId) {
-      likeSelector.classList.add('card__like-button_active')
+      likeBtn.classList.add('card__like-button_active')
       return;
     }
   });
 }
 
-function renderLoading(isLoading, popupSelector) {
-  const btnSubmit = popupSelector.querySelector('.popup__submit-button');
+function renderLoading(isLoading, btnSubmit, buttonText='Сохранить') {
   if (isLoading) {
     btnSubmit.textContent = 'Сохранение...'
-  } else if (btnSubmit.closest('.popup_new-place')) {
-    btnSubmit.textContent = 'Создать'
   } else {
-    btnSubmit.textContent = 'Сохранить'
+    btnSubmit.textContent = buttonText;
   }
 
 }
 
-function setInactiveFormBtn(popup) {
-  const btnSubmit = popup.querySelector('.popup__submit-button');
+function setInactiveFormBtn(btnSubmit) {
   btnSubmit.classList.add('popup__submit-button_inactive');
   btnSubmit.setAttribute('disabled','');
 }
