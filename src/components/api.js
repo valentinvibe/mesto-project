@@ -1,16 +1,4 @@
-// import { renderCard, createCard } from "./card.js";
-// import {
-//   avatarProfile,
-//   popupEditProfile,
-//   popupAvatar,
-//   newPlacePopup
-// } from "./constants.js";
-import {
-  renderLoading,
-  closePopup,
-  setInactiveFormBtn,
-  checkResponse
-} from "./utils.js";
+import { checkResponse } from "./utils.js";
 
 const config = {
   baseUrl: 'https://nomoreparties.co/v1/plus-cohort-11',

@@ -4,7 +4,8 @@ import {
   popupImage,
   popupEditProfile,
   newPlacePopup,
-  popupAvatar
+  popupAvatar,
+  avatarProfile
 } from "./constants.js";
 
 import {
@@ -43,20 +44,16 @@ function handleProfileFormSubmit(e) {
   e.preventDefault();
   setUserInfo(inputUserName.value, inputUserBio.value)
     .then((res) => {
-      renderLoading(true);
+      renderLoading(true, popupEditProfile);
       updateUsefInfo(inputUserName.value, inputUserBio.value);
+      closePopup(popupEditProfile);
+      setInactiveFormBtn(popupEditProfile);
     })
     .catch(err => {
-      throw new Error(`${err.status} ${err.statusText}`)
+      console.log(err);
     })
     .finally(() => {
-      renderLoading(false);
-    })
-    .finally(() => {
-      closePopup(popupEditProfile)
-    })
-    .finally(() => {
-      setInactiveFormBtn(popupEditProfile)
+      renderLoading(false, popupEditProfile);
     })
 
 };
@@ -68,44 +65,37 @@ function handlePlaceFormSubmit(user) {
   }
   addNewCard(card, user)
     .then(result => {
-      renderLoading(true);
-      renderCard(createCard(result,user))
+      renderLoading(true, newPlacePopup);
+      renderCard(createCard(result,user));
+      closePopup(newPlacePopup);
+      setInactiveFormBtn(newPlacePopup);
+      formNewPlace.reset();
     })
     .catch(err => {
-      throw new Error(`${err.status} ${err.statusText}`)
+      console.log(err);
     })
     .finally(() => {
-      renderLoading(false);
+      renderLoading(false, newPlacePopup);
     })
-    .finally(() => {
-      closePopup(newPlacePopup)
-    })
-    .finally(() => {
-      setInactiveFormBtn(newPlacePopup)
-    })
-  formNewPlace.reset();
 };
 
 function handlerAvatarFormSubmit(e) {
   e.preventDefault();
   setUserAvatar(avaLink.value)
     .then(result => {
-      renderLoading(true);
+      renderLoading(true, popupAvatar);
       avatarProfile.src = result.avatar;
+      closePopup(popupAvatar);
+      setInactiveFormBtn(popupAvatar);
+      formNewAvatar.reset();
     })
     .catch(err => {
-      throw new Error(`${err.status} ${err.statusText}`)
+      console.log(err);
     })
     .finally(() => {
-      renderLoading(false);
+      renderLoading(false, popupAvatar);
     })
-    .finally(() => {
-      closePopup(popupAvatar)
-    })
-    .finally(() => {
-      setInactiveFormBtn(popupAvatar)
-    })
-  formNewAvatar.reset();
+  
 }
 
 // OpenPopupBigImg
