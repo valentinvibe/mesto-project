@@ -11,6 +11,7 @@ function createCard(card, userInfo) {
   cardImage.src = card.link;
   cardImage.alt = card.name;
   cardElement.querySelector('.card__description').textContent = card.name;
+  cardElement.id = card._id;
   const btnLike = cardElement.querySelector('.card__like-button'),
         likeCount = cardElement.querySelector('.card__likes-count'),
         btnDel = cardElement.querySelector('.card__remove-button');
@@ -18,8 +19,7 @@ function createCard(card, userInfo) {
   if (card.owner._id === userInfo._id) {
     btnDel.addEventListener('click', () => {
       openPopup(popupConfirm);
-      cardToDel = card._id;
-      cardElement.id = `a${card._id}`;
+      cardToDel = cardElement;
     });
   } else {
     btnDel.remove();
