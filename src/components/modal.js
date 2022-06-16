@@ -42,18 +42,19 @@ function updateUsefInfo(name,bio) {
 
 function handleProfileFormSubmit(e) {
   e.preventDefault();
+  const btnSubmit = popupEditProfile.querySelector('.popup__submit-button');
+  renderLoading(true, btnSubmit);
   setUserInfo(inputUserName.value, inputUserBio.value)
     .then((res) => {
-      renderLoading(true, popupEditProfile);
       updateUsefInfo(inputUserName.value, inputUserBio.value);
       closePopup(popupEditProfile);
-      setInactiveFormBtn(popupEditProfile);
+      setInactiveFormBtn(btnSubmit);
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, popupEditProfile);
+      renderLoading(false, btnSubmit);
     })
 
 };
@@ -63,37 +64,39 @@ function handlePlaceFormSubmit(user) {
     name: namePlace.value,
     link: linkPlace.value
   }
+  const btnSubmit = newPlacePopup.querySelector('.popup__submit-button');
+  renderLoading(true, btnSubmit);
   addNewCard(card, user)
     .then(result => {
-      renderLoading(true, newPlacePopup);
       renderCard(createCard(result,user));
       closePopup(newPlacePopup);
-      setInactiveFormBtn(newPlacePopup);
+      setInactiveFormBtn(btnSubmit);
       formNewPlace.reset();
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, newPlacePopup);
+      renderLoading(false, btnSubmit, 'Создать');
     })
 };
 
 function handlerAvatarFormSubmit(e) {
   e.preventDefault();
+  const btnSubmit = popupAvatar.querySelector('.popup__submit-button');
+  renderLoading(true, btnSubmit);
   setUserAvatar(avaLink.value)
     .then(result => {
-      renderLoading(true, popupAvatar);
       avatarProfile.src = result.avatar;
       closePopup(popupAvatar);
-      setInactiveFormBtn(popupAvatar);
+      setInactiveFormBtn(btnSubmit);
       formNewAvatar.reset();
     })
     .catch(err => {
       console.log(err);
     })
     .finally(() => {
-      renderLoading(false, popupAvatar);
+      renderLoading(false, btnSubmit);
     })
   
 }
