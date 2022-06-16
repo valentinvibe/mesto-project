@@ -15,6 +15,13 @@ function closeByEscape(evt) {
   }
 }
 
+function checkResponse(res) {
+  if (res.ok) {
+    return res.json()
+  }
+  return Promise.reject(`Ошибка ${res.status} ${res.statusText}`)
+}
+
 function setActiveLike(likesArr, userId, likeSelector) {
   likesArr.forEach(element => {
     if (element._id === userId) {
@@ -24,8 +31,8 @@ function setActiveLike(likesArr, userId, likeSelector) {
   });
 }
 
-function renderLoading(isLoading) {
-  const btnSubmit = document.querySelector('.popup_opened').querySelector('.popup__submit-button');
+function renderLoading(isLoading, popupSelector) {
+  const btnSubmit = popupSelector.querySelector('.popup__submit-button');
   if (isLoading) {
     btnSubmit.textContent = 'Сохранение...'
   } else if (btnSubmit.closest('.popup_new-place')) {
@@ -48,7 +55,8 @@ export {
   closePopup,
   setActiveLike,
   renderLoading,
-  setInactiveFormBtn
+  setInactiveFormBtn,
+  checkResponse
 }
 
 

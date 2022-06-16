@@ -1,5 +1,20 @@
-import { bigImage, popupImgDesc, popupImage } from "./constants.js"
-import { openPopup } from "./utils.js";
+import {
+  bigImage,
+  popupImgDesc,
+  popupImage,
+  popupEditProfile,
+  newPlacePopup,
+  popupAvatar,
+  avatarProfile
+} from "./constants.js";
+
+import {
+  openPopup,
+  renderLoading,
+  setInactiveFormBtn,
+  closePopup
+} from "./utils.js";
+
 import {
   namePlace,
   linkPlace,
@@ -18,6 +33,8 @@ import {
   setUserAvatar
 } from "./api.js";
 
+import { createCard, renderCard } from "./card.js";
+
 function updateUsefInfo(name,bio) {
   titleProfile.textContent = name;
   descProfile.textContent = bio;
@@ -25,8 +42,20 @@ function updateUsefInfo(name,bio) {
 
 function handleProfileFormSubmit(e) {
   e.preventDefault();
-  updateUsefInfo(inputUserName.value, inputUserBio.value);
-  setUserInfo(inputUserName.value, inputUserBio.value);
+  setUserInfo(inputUserName.value, inputUserBio.value)
+    .then((res) => {
+      renderLoading(true, popupEditProfile);
+      updateUsefInfo(inputUserName.value, inputUserBio.value);
+      closePopup(popupEditProfile);
+      setInactiveFormBtn(popupEditProfile);
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, popupEditProfile);
+    })
+
 };
 
 function handlePlaceFormSubmit(user) {
@@ -35,13 +64,38 @@ function handlePlaceFormSubmit(user) {
     link: linkPlace.value
   }
   addNewCard(card, user)
-  formNewPlace.reset();
+    .then(result => {
+      renderLoading(true, newPlacePopup);
+      renderCard(createCard(result,user));
+      closePopup(newPlacePopup);
+      setInactiveFormBtn(newPlacePopup);
+      formNewPlace.reset();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, newPlacePopup);
+    })
 };
 
 function handlerAvatarFormSubmit(e) {
   e.preventDefault();
   setUserAvatar(avaLink.value)
-  formNewAvatar.reset();
+    .then(result => {
+      renderLoading(true, popupAvatar);
+      avatarProfile.src = result.avatar;
+      closePopup(popupAvatar);
+      setInactiveFormBtn(popupAvatar);
+      formNewAvatar.reset();
+    })
+    .catch(err => {
+      console.log(err);
+    })
+    .finally(() => {
+      renderLoading(false, popupAvatar);
+    })
+  
 }
 
 // OpenPopupBigImg
