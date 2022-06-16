@@ -1,4 +1,4 @@
-import {cardTemplate, cardsContainer, popupConfirm } from "./constants.js";
+import { cardTemplate, cardsContainer, popupConfirm } from "./constants.js";
 import { showBigImg } from "./modal.js";
 import { openPopup, setActiveLike } from "./utils.js";
 import { setLike, delLike } from "./api.js";
@@ -19,22 +19,34 @@ function createCard(card, userInfo) {
     btnDel.addEventListener('click', () => {
       openPopup(popupConfirm);
       cardToDel = card._id;
-      cardElement.id = `delete`;
+      cardElement.id = `a${card._id}`;
     });
   } else {
     btnDel.remove();
   }
 
-  cardElement.querySelector('.card__likes-count').textContent = card.likes.length;
+  likeCount.textContent = card.likes.length;
   setActiveLike(card.likes, userInfo._id, btnLike);
 
   btnLike.addEventListener('click', () => {
-    btnLike.classList.toggle('card__like-button_active');
-
     if (btnLike.classList.contains('card__like-button_active')) {
-      setLike(card._id, likeCount)
+      delLike(card._id)
+        .then((data) => {
+          likeCount.textContent = data.likes.length;
+          btnLike.classList.toggle('card__like-button_active');
+        })
+        .catch(err => {
+          console.log(err);
+        }) 
     } else {
-      delLike(card._id, likeCount)
+      setLike(card._id)
+        .then(data => {
+          likeCount.textContent = data.likes.length;
+          btnLike.classList.toggle('card__like-button_active');
+        })
+        .catch(err => {
+          console.log(err);
+        })
     }
   });
 

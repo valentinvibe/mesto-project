@@ -32,28 +32,28 @@ import { getInitialCards,
          deleteCard
 } from "./components/api.js";
 
-let userData = {}; //Сохраним информацию о пользователе в объекте
+let userData = [];
 
-getUserInfo()
+Promise.all([getUserInfo(), getInitialCards()])
   .then(data => {
-    titleProfile.textContent = data.name;
-    descProfile.textContent = data.about;
-    avatarProfile.src = data.avatar;
-    return userData = data
-  });
-
-getInitialCards()
-  .then(cards => {
-    if (cards.length > 0) {
-      cards.forEach(card => {
-        renderCard(createCard(card, userData));
+    titleProfile.textContent = data[0].name;
+    descProfile.textContent = data[0].about;
+    avatarProfile.src = data[0].avatar;
+    if (data[1].length > 0) {
+      data[1].forEach(card => {
+        renderCard(createCard(card, data[0]));
       })
     } else {
-      let text = document.createElement('p');
+      const text = document.createElement('p');
       text.textContent = 'Нет карточек для отображения';
       document.querySelector('.cards-container').before(text);
     }
+    return userData = data[0]
   })
+  .catch(err => {
+    console.log(err);
+  })
+
 
 /* Set eventListeners */
 
@@ -105,10 +105,15 @@ enableValidation(
 );
 
 btnConfirm.addEventListener('click', () => {
-  deleteCard(cardToDel);
-  closePopup(popupConfirm);
-  const selectCard = document.querySelector(`#delete`);
-  selectCard.remove();
+  deleteCard(cardToDel)
+    .then(() => {
+      const selectCard = document.querySelector(`#a${cardToDel}`);
+      selectCard.remove();
+      closePopup(popupConfirm);
+    })
+    .catch(err => {
+      console.log(err);
+    })
 })
 
 formNewAvatar.addEventListener('submit', handlerAvatarFormSubmit)
