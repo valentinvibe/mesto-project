@@ -25,6 +25,15 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       formNewAvatar = popupAvatar.querySelector('form'),
       avaLink = formNewAvatar.querySelector('.popup__input-field');
 
+
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-11',
+  headers: {
+    authorization: 'ae0b9021-b91d-4516-99a3-d1f2660c87bd',
+    'Content-Type': 'application/json'
+  }
+}
+
 export {
   btnEditProfile,
   btnAddNewPlace,
@@ -51,5 +60,6 @@ export {
   popupAvatar,
   btnAvatarSubmit,
   formNewAvatar,
-  avaLink
+  avaLink,
+  config
 }

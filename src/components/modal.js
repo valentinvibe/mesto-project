@@ -31,7 +31,7 @@ import {
   setUserInfo,
   addNewCard,
   setUserAvatar
-} from "./api.js";
+} from "./Api.js";
 
 import { createCard, renderCard } from "./card.js";
 
@@ -98,7 +98,7 @@ function handlerAvatarFormSubmit(e) {
     .finally(() => {
       renderLoading(false, btnSubmit);
     })
-  
+
 }
 
 // OpenPopupBigImg

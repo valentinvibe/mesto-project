@@ -18,9 +18,13 @@ import {
     btnConfirm,
     btnAvatarEdit,
     popupAvatar,
-    formNewAvatar
+    formNewAvatar,
+    config,
+    popupImage,
+    bigImage,
+    popupImgDesc
 } from "./components/constants.js";
-import { createCard, renderCard, cardToDel } from "./components/card.js";
+import { createCard, renderCard, cardToDel, Card } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
 import {
   handleProfileFormSubmit,
@@ -29,19 +33,28 @@ import {
 } from "./components/modal.js";
 import { getInitialCards,
          getUserInfo ,
-         deleteCard
-} from "./components/api.js";
+         deleteCard,
+         Api
+} from "./components/Api.js";
+import { PopupWithImage } from './components/Popup.js';
 
 let userData = [];
 
-Promise.all([getUserInfo(), getInitialCards()])
+const api = new Api(config);
+
+Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(data => {
     titleProfile.textContent = data[0].name;
     descProfile.textContent = data[0].about;
     avatarProfile.src = data[0].avatar;
     if (data[1].length > 0) {
       data[1].forEach(card => {
-        renderCard(createCard(card, data[0]));
+        const popup = new PopupWithImage(popupImage, bigImage, popupImgDesc);
+        popup.handleCardClick(data[1].link, data[1].name);
+        const newCard = new Card(card, data[0], '#card-template', api, popup.handleCardClick());
+        const newCardElement = newCard.generate();
+        // renderCard(createCard(card, data[0]));
+        renderCard(newCardElement);
       })
     } else {
       const text = document.createElement('p');
