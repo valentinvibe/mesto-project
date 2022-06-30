@@ -23,7 +23,8 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       popupAvatar = document.querySelector('.popup_new-avatar'),
       btnAvatarSubmit = popupAvatar.querySelector('.popup__submit-button'),
       formNewAvatar = popupAvatar.querySelector('form'),
-      avaLink = formNewAvatar.querySelector('.popup__input-field');
+      avaLink = formNewAvatar.querySelector('.popup__input-field'),
+      aPopup = document.querySelector('.popup');
 
 
 const config = {
@@ -61,5 +62,6 @@ export {
   btnAvatarSubmit,
   formNewAvatar,
   avaLink,
-  config
+  config,
+  aPopup
 }

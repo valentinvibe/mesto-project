@@ -1,51 +1,53 @@
 class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
+    this._setEventListeners();
+    this._handleEsc = this._handleEscClose.bind(this);
   }
 
   open() {
     this._popupSelector.classList.add('popup_opened');
-    document.addEventListener('keydown', this._handleEscClose);
+    document.addEventListener('keydown', this._handleEsc);
   }
 
   close() {
     this._popupSelector.classList.remove('popup_opened');
-    document.removeEventListener('keydown', this._handleEscClose);
+    document.removeEventListener('keydown', this._handleEsc);
   }
 
-  _handleEscClose() {
-    if (evt.key === 'Escape' && this._popupSelector.classList.cotains('popup_opened')) {
-        closePopup(this._popupSelector);
-      }
+  _handleEscClose(evt) {
+    if (evt.key === 'Escape') {
+      this.close();
+      console.log();
+    }
   }
 
-  setEventListeners() {
+  _setEventListeners() {
     this._popupSelector.addEventListener('mousedown', (evt) => {
       if (evt.target.classList.contains('popup_opened')) {
-          closePopup(this._popupSelector);
+        this.close(this._popupSelector);
       }
       if (evt.target.classList.contains('popup__close-button')) {
-          closePopup(this._popupSelector);
+        this.close(this._popupSelector);
       }
     })
   }
 }
 
 class PopupWithImage extends Popup {
-    constructor(popupSelector, bigImage, popupImgDesc) {
+    constructor(popupSelector) {
       super(popupSelector);
-      this._bigImage = bigImage;
-      this._popupImgDesc = popupImgDesc;
+      this._bigImage = this._popupSelector.querySelector('.popup__big-img');
+      this._popupImgDesc = this._popupSelector.querySelector('.popup__img-description');
     }
 
-    open() {
+    open(item) {
       super.open();
-      this._handleCardClick();
+      this._bigImage.src = item.link;
+      this._bigImage.alt = item.name;
+      this._popupImgDesc.textContent = item.name;
     }
 
-    handleCardClick(link, name) {
-      this._bigImage.src = link;
-      this._bigImage.alt = name;
-      this._popupImgDesc.textContent = name;
-    }
 }
+
+export { Popup, PopupWithImage }
