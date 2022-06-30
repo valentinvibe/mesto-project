@@ -33,7 +33,7 @@ import {
   setUserAvatar
 } from "./Api.js";
 
-import { createCard, renderCard } from "./card.js";
+import { renderCard } from "./card.js";
 
 function updateUsefInfo(name,bio) {
   titleProfile.textContent = name;

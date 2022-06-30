@@ -22,9 +22,12 @@ import {
     config,
     popupImage,
     bigImage,
-    popupImgDesc
+    popupImgDesc,
+    card,
+    cardsContainer,
+    aPopup
 } from "./components/constants.js";
-import { createCard, renderCard, cardToDel, Card } from "./components/card.js";
+import { renderCard, cardToDel, Card } from "./components/card.js";
 import { openPopup, closePopup } from "./components/utils.js"
 import {
   handleProfileFormSubmit,
@@ -36,37 +39,64 @@ import { getInitialCards,
          deleteCard,
          Api
 } from "./components/Api.js";
-import { PopupWithImage } from './components/Popup.js';
+import { Section } from "./components/Section.js";
+import { Popup, PopupWithImage } from './components/Popup.js';
 
 let userData = [];
 
 const api = new Api(config);
+const popupWithImage = new PopupWithImage(popupImage);
+
+
+// const popup = new PopupWithImage(popupImage);
 
 Promise.all([api.getUserInfo(), api.getInitialCards()])
   .then(data => {
     titleProfile.textContent = data[0].name;
     descProfile.textContent = data[0].about;
     avatarProfile.src = data[0].avatar;
-    if (data[1].length > 0) {
-      data[1].forEach(card => {
-        const popup = new PopupWithImage(popupImage, bigImage, popupImgDesc);
-        popup.handleCardClick(data[1].link, data[1].name);
-        const newCard = new Card(card, data[0], '#card-template', api, popup.handleCardClick());
-        const newCardElement = newCard.generate();
-        // renderCard(createCard(card, data[0]));
-        renderCard(newCardElement);
-      })
-    } else {
-      const text = document.createElement('p');
-      text.textContent = 'Нет карточек для отображения';
-      document.querySelector('.cards-container').before(text);
-    }
+
+    const cardsList = new Section({
+      cardsData: data[1],
+      renderer: (item) => {
+          const card = new Card(item, data[0], '#card-template', api, {
+            handleCardClick: () => {
+              popupWithImage.open(item)
+            }
+          });
+          const cardElement = card.generate();
+          cardsList.setItem(cardElement);
+      }
+    }, cardsContainer);
+    cardsList.addItem();
+
     return userData = data[0]
   })
   .catch(err => {
     console.log(err);
   })
 
+function setLikeHandler(cardId, counterElement, buttonElement) {
+  api.setLike(cardId)
+    .then((data) => {
+      counterElement.textContent = data.likes.length;
+      buttonElement.classList.add('card__like-button_active');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
+
+function delLikeHandler(cardId, counterElement, buttonElement) {
+  api.delLike(cardId)
+    .then((data) => {
+      counterElement.textContent = data.likes.length;
+      buttonElement.classList.remove('card__like-button_active');
+    })
+    .catch(err => {
+      console.log(err);
+    })
+}
 
 /* Set eventListeners */
 
@@ -94,14 +124,18 @@ btnAvatarEdit.addEventListener('click', () => {
 /* Close Popups & click overlay*/
 
 popups.forEach((popup) => {
-    popup.addEventListener('mousedown', (evt) => {
-        if (evt.target.classList.contains('popup_opened')) {
-            closePopup(popup);
-        }
-        if (evt.target.classList.contains('popup__close-button')) {
-            closePopup(popup);
-        }
-    })
+  const popupElement = new Popup(popup);
+  popup.addEventListener('mousedown', (evt) => {
+    if (evt.target.classList.contains('popup_opened')) {
+
+      popupElement.close();
+      // closePopup(popup);
+    }
+    if (evt.target.classList.contains('popup__close-button')) {
+      popupElement.close();
+      // closePopup(popup);
+    }
+  })
 })
 
 /* Validation Forms */
@@ -128,4 +162,6 @@ btnConfirm.addEventListener('click', () => {
     })
 })
 
-formNewAvatar.addEventListener('submit', handlerAvatarFormSubmit)
+formNewAvatar.addEventListener('submit', handlerAvatarFormSubmit);
+
+export { setLikeHandler, delLikeHandler }
