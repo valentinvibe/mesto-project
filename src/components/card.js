@@ -1,13 +1,11 @@
 import { cardTemplate, cardsContainer, popupConfirm } from "./constants.js";
 import { showBigImg } from "./modal.js";
 import { openPopup, setActiveLike } from "./utils.js";
-import { Api, setLike, delLike } from "./Api.js";
-import { delLikeHandler,  setLikeHandler} from "../index.js";
 
 let cardToDel = '';
 
 class Card {
-  constructor({link, name, _id, likes, owner}, userInfo, templateSelector, api, handler) {
+  constructor({link, name, _id, likes, owner}, userInfo, templateSelector, handler) {
     this._link = link;
     this._name = name;
     this._id = _id;
@@ -15,7 +13,6 @@ class Card {
     this._owner = owner;
     this._userInfo = userInfo;
     this._templateSelector = templateSelector;
-    this._api = api;
     this._handler = handler;
   }
 
@@ -42,8 +39,9 @@ class Card {
     this._btnDel = this._element.querySelector('.card__remove-button');
 
     if (this._owner._id === this._userInfo._id) {
-      this._btnDel.addEventListener('click', () => {
+      this._btnDel.addEventListener('click', (evt) => {
         openPopup(popupConfirm);
+        // this._handler.delCardHandler(this._id)
         cardToDel = this._element;
       })
     } else {
@@ -55,9 +53,9 @@ class Card {
 
     this._btnLike.addEventListener('click', () => {
       if (this._btnLike.classList.contains('card__like-button_active')) {
-        delLikeHandler(this._id, this._likeCount, this._btnLike);
+        this._handler.delLikeHandler(this._id, this._likeCount, this._btnLike);
       } else {
-        setLikeHandler(this._id, this._likeCount, this._btnLike);
+        this._handler.setLikeHandler(this._id, this._likeCount, this._btnLike);
       }
     });
 

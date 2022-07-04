@@ -35,6 +35,17 @@ const config = {
   }
 }
 
+const options = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input-field',
+    submitButtonSelector: '.popup__submit-button',
+    inactiveButtonClass: 'popup__submit-button_inactive',
+    inputErrorClass: 'popup__input-field_type_error',
+    errorClass: 'popup__input-error_active'
+}
+
+
+
 export {
   btnEditProfile,
   btnAddNewPlace,
@@ -63,5 +74,6 @@ export {
   formNewAvatar,
   avaLink,
   config,
-  aPopup
+  aPopup,
+  options
 }
