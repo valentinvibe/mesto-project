@@ -25,15 +25,13 @@ import {
     popupImgDesc,
     card,
     cardsContainer,
-    aPopup,
-    namePlace,
-    linkPlace,
-    options
+    aPopup
 } from "./components/constants.js";
 import { renderCard, cardToDel, Card } from "./components/card.js";
-import { openPopup, closePopup, renderLoading, setInactiveFormBtn } from "./components/utils.js"
+import { openPopup, closePopup } from "./components/utils.js"
 import {
   handleProfileFormSubmit,
+  handlePlaceFormSubmit,
   handlerAvatarFormSubmit
 } from "./components/modal.js";
 import { getInitialCards,
@@ -42,24 +40,13 @@ import { getInitialCards,
          Api
 } from "./components/Api.js";
 import { Section } from "./components/Section.js";
-import { Popup, PopupWithImage, PopupWithForm } from './components/Popup.js';
-import { FormValidator } from './components/FormValidator.js';
+import { Popup, PopupWithImage } from './components/Popup.js';
 
 let userData = [];
-let cardsList;
 
 const api = new Api(config);
 const popupWithImage = new PopupWithImage(popupImage);
 
-
-const validatePopups = [popupEditProfile, newPlacePopup, popupAvatar];
-
-function validateForms(validatedForms) {
-  validatedForms.forEach(form => {
-    const initFormValidate = new FormValidator(options, form);
-    initFormValidate.enableValidation();
-  })
-}
 
 // const popup = new PopupWithImage(popupImage);
 
@@ -69,42 +56,12 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
     descProfile.textContent = data[0].about;
     avatarProfile.src = data[0].avatar;
 
-    cardsList = new Section({
+    const cardsList = new Section({
       cardsData: data[1],
       renderer: (item) => {
-          const card = new Card(item, data[0], '#card-template', {
+          const card = new Card(item, data[0], '#card-template', api, {
             handleCardClick: () => {
               popupWithImage.open(item)
-            },
-            setLikeHandler: (cardId, counterElement, buttonElement) => {
-              api.setLike(cardId)
-                .then((data) => {
-                  counterElement.textContent = data.likes.length;
-                  buttonElement.classList.add('card__like-button_active');
-                })
-                .catch(err => {
-                  console.log(err);
-                })
-            },
-            delLikeHandler: (cardId, counterElement, buttonElement) => {
-              api.delLike(cardId)
-                .then((data) => {
-                  counterElement.textContent = data.likes.length;
-                  buttonElement.classList.remove('card__like-button_active');
-                })
-                .catch(err => {
-                  console.log(err);
-                })
-            },
-            delCardHandler: (cardId) => {
-              api.deleteCard(cardId)
-                .then((data) => {
-                  const cardToDel = evt.target.closest('.card');
-                  cardToDel.remove();
-                })
-                .catch(err => {
-                  console.log(err);
-                })
             }
           });
           const cardElement = card.generate();
@@ -115,62 +72,45 @@ Promise.all([api.getUserInfo(), api.getInitialCards()])
 
     return userData = data[0]
   })
-  .then(res => {
-    const popupWithFormProfile = new PopupWithForm(popupEditProfile, {
-      formSubmitHandler: (name, about) => {
-        api.setUserInfo(name,about)
-          .then(res => {
-            titleProfile.textContent = res.name;
-            descProfile.textContent = res.about;
-          })
-          .catch(err => {
-            console.log(err);
-          })
-      }
-    })
-  })
   .catch(err => {
     console.log(err);
   })
 
-
-
-function handlePlaceFormSubmit(user) {
-  const card = {
-    name: namePlace.value,
-    link: linkPlace.value
-  }
-  const btnSubmit = newPlacePopup.querySelector('.popup__submit-button');
-  renderLoading(true, btnSubmit);
-  api.addNewCard(card, user)
-    .then(result => {
-      cardsList.addItem();
-      closePopup(newPlacePopup);
-      setInactiveFormBtn(btnSubmit);
-      formNewPlace.reset();
+function setLikeHandler(cardId, counterElement, buttonElement) {
+  api.setLike(cardId)
+    .then((data) => {
+      counterElement.textContent = data.likes.length;
+      buttonElement.classList.add('card__like-button_active');
     })
     .catch(err => {
       console.log(err);
     })
-    .finally(() => {
-      renderLoading(false, btnSubmit, 'Создать');
+}
+
+function delLikeHandler(cardId, counterElement, buttonElement) {
+  api.delLike(cardId)
+    .then((data) => {
+      counterElement.textContent = data.likes.length;
+      buttonElement.classList.remove('card__like-button_active');
     })
-};
+    .catch(err => {
+      console.log(err);
+    })
+}
 
 /* Set eventListeners */
 
 btnEditProfile.addEventListener('click', () => {
   inputUserName.value = titleProfile.textContent;
   inputUserBio.value = descProfile.textContent;
-  //openPopup(popupEditProfile);
-  popupWithFormProfile.open();
+  openPopup(popupEditProfile);
 });
 
 btnAddNewPlace.addEventListener('click', () => {
-  //openPopup(newPlacePopup);
+  openPopup(newPlacePopup);
 });
 
-// formEditProfile.addEventListener('submit', handleProfileFormSubmit);
+formEditProfile.addEventListener('submit', handleProfileFormSubmit);
 
 formNewPlace.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -178,7 +118,7 @@ formNewPlace.addEventListener('submit', (e) => {
 })
 
 btnAvatarEdit.addEventListener('click', () => {
-  //openPopup(popupAvatar);
+  openPopup(popupAvatar);
 })
 
 /* Close Popups & click overlay*/
@@ -198,14 +138,20 @@ popups.forEach((popup) => {
   })
 })
 
-/* Validation */
+/* Validation Forms */
 
-validateForms(validatePopups);
-
-/* --------------- */
+enableValidation(
+  {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input-field',
+    submitButtonSelector: '.popup__submit-button',
+    inactiveButtonClass: 'popup__submit-button_inactive',
+    inputErrorClass: 'popup__input-field_type_error',
+    errorClass: 'popup__input-error_active'
+  }
+);
 
 btnConfirm.addEventListener('click', () => {
-
   deleteCard(cardToDel.id)
     .then(() => {
       cardToDel.remove();
@@ -217,3 +163,5 @@ btnConfirm.addEventListener('click', () => {
 })
 
 formNewAvatar.addEventListener('submit', handlerAvatarFormSubmit);
+
+export { setLikeHandler, delLikeHandler }

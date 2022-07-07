@@ -11,16 +11,12 @@ class Section {
     this._container.append(element);
   }
 
-  _clear() {
-    this._container.innerHTML = '';
-  }
-
   addItem() {
-    this._clear();
     this._data.forEach(item => {
       this._renderer(item);
     });
   }
+
 }
 
 export { Section }
