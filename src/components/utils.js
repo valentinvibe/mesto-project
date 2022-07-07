@@ -1,27 +1,3 @@
-function openPopup(popup) {
-  popup.classList.add('popup_opened');
-  document.addEventListener('keydown', closeByEscape);
-};
-
-function closePopup(popup) {
-  popup.classList.remove('popup_opened');
-  document.removeEventListener('keydown', closeByEscape);
-};
-
-function closeByEscape(evt) {
-  if (evt.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-    closePopup(openedPopup);
-  }
-}
-
-function checkResponse(res) {
-  if (res.ok) {
-    return res.json()
-  }
-  return Promise.reject(`Ошибка ${res.status} ${res.statusText}`)
-}
-
 function setActiveLike(likesArr, userId, likeBtn) {
   likesArr.forEach(element => {
     if (element._id === userId) {
@@ -47,12 +23,9 @@ function setInactiveFormBtn(btnSubmit) {
 
 
 export {
-  openPopup,
-  closePopup,
   setActiveLike,
   renderLoading,
-  setInactiveFormBtn,
-  checkResponse
+  setInactiveFormBtn
 }
 
 

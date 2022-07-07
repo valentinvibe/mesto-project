@@ -1,5 +1,3 @@
-import { cardsContainer } from './constants.js';
-
 class Section {
   constructor({cardsData, renderer}, sectionSelector) {
     this._data = cardsData;
@@ -15,7 +13,11 @@ class Section {
     this._container.innerHTML = '';
   }
 
-  addItem() {
+  addItem(item) {
+    this._renderer(item);
+  }
+
+  addItems() {
     this._clear();
     this._data.forEach(item => {
       this._renderer(item);

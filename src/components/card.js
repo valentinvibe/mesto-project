@@ -1,6 +1,5 @@
-import { cardTemplate, cardsContainer, popupConfirm } from "./constants.js";
-import { showBigImg } from "./modal.js";
-import { openPopup, setActiveLike } from "./utils.js";
+import { cardsContainer } from "./constants.js";
+import { setActiveLike } from "./utils.js";
 
 let cardToDel = '';
 
@@ -40,8 +39,7 @@ class Card {
 
     if (this._owner._id === this._userInfo._id) {
       this._btnDel.addEventListener('click', (evt) => {
-        openPopup(popupConfirm);
-        // this._handler.delCardHandler(this._id)
+        this._handler.confirmDelCard();
         cardToDel = this._element;
       })
     } else {
@@ -65,65 +63,11 @@ class Card {
   }
 }
 
-// function createCard(card, userInfo) {
-//   const cardElement = cardTemplate.querySelector('.card').cloneNode(true),
-//         cardImage = cardElement.querySelector('.card__image');
-//   cardImage.src = card.link;
-//   cardImage.alt = card.name;
-//   cardElement.querySelector('.card__description').textContent = card.name;
-//   cardElement.id = card._id;
-//   const btnLike = cardElement.querySelector('.card__like-button'),
-//         likeCount = cardElement.querySelector('.card__likes-count'),
-//         btnDel = cardElement.querySelector('.card__remove-button');
-
-//   if (card.owner._id === userInfo._id) {
-//     btnDel.addEventListener('click', () => {
-//       openPopup(popupConfirm);
-//       cardToDel = cardElement;
-//     });
-//   } else {
-//     btnDel.remove();
-//   }
-
-//   likeCount.textContent = card.likes.length;
-//   setActiveLike(card.likes, userInfo._id, btnLike);
-
-//   btnLike.addEventListener('click', () => {
-//     if (btnLike.classList.contains('card__like-button_active')) {
-//       delLike(card._id)
-//         .then((data) => {
-//           likeCount.textContent = data.likes.length;
-//           btnLike.classList.toggle('card__like-button_active');
-//         })
-//         .catch(err => {
-//           console.log(err);
-//         })
-//     } else {
-//       setLike(card._id)
-//         .then(data => {
-//           likeCount.textContent = data.likes.length;
-//           btnLike.classList.toggle('card__like-button_active');
-//         })
-//         .catch(err => {
-//           console.log(err);
-//         })
-//     }
-//   });
-
-
-//   cardImage.addEventListener('click', () => {
-//     showBigImg(card.name,card.link);
-//   });
-
-//    return cardElement;
-// };
-
 function renderCard(card) {
   cardsContainer.append(card);
 };
 
 export {
-  renderCard,
   cardToDel,
   Card
 }

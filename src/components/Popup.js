@@ -47,34 +47,34 @@ class PopupWithImage extends Popup {
       this._popupImgDesc.textContent = item.name;
     }
 }
-
 class PopupWithForm extends Popup {
-  constructor(popupSelector, formSubmitHandler) {
+  constructor(popupSelector, handler) {
     super(popupSelector);
-    this._formSubmitHandler = formSubmitHandler;
-    this._formElement = this._popupSelector.querySelector('.popup__form');
-    this._inputList = Array.from(this._formElement.querySelectorAll('.popup__input-field'));
-    this._formSubmit = this._formElement.querySelector('.popup__submit-button');
+    this._handler = handler;
   }
 
   _getInputValues() {
-    const formElement = this._popupSelector.querySelector('.popup__form');
-    const inputList = Array.from(formElement.querySelectorAll('.popup__input-field'));
+    this._inputList = Array.from(this._formElement.querySelectorAll('.popup__input-field'));
     this._formValues = {};
-    inputList.forEach(input => {
+    this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;
     })
-    console.log(this._formValues)
     return this._formValues
   }
 
+  close() {
+    super.close();
+    this._formElement.reset();
+  }
+
   setEventListeners() {
+    this._formElement = this._popupSelector.querySelector('.popup__form');
+    const btnSubmit = this._popupSelector.querySelector('.popup__submit-button');
     super.setEventListeners();
-    const data = this._getInputValues();
-    const formSubmit = this._popupSelector.querySelector('.popup__submit-button');
-    formSubmit.addEventListener('submit', (evt) => {
-      evt.preventDefault();
-      this._formSubmitHandler(data.name, data.about);
+    this._formElement.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const formData = this._getInputValues();
+      this._handler.formSubmitHandler(formData,btnSubmit);
     })
   }
 }
