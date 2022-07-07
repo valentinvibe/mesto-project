@@ -1,13 +1,10 @@
-import { cardTemplate, cardsContainer, popupConfirm } from "./constants.js";
-import { showBigImg } from "./modal.js";
-import { openPopup, setActiveLike } from "./utils.js";
-import { Api, setLike, delLike } from "./Api.js";
-import { delLikeHandler,  setLikeHandler} from "../index.js";
+import { cardsContainer } from "./constants.js";
+import { setActiveLike } from "./utils.js";
 
 let cardToDel = '';
 
 class Card {
-  constructor({link, name, _id, likes, owner}, userInfo, templateSelector, api, handler) {
+  constructor({link, name, _id, likes, owner}, userInfo, templateSelector, handler) {
     this._link = link;
     this._name = name;
     this._id = _id;
@@ -15,7 +12,6 @@ class Card {
     this._owner = owner;
     this._userInfo = userInfo;
     this._templateSelector = templateSelector;
-    this._api = api;
     this._handler = handler;
   }
 
@@ -42,8 +38,8 @@ class Card {
     this._btnDel = this._element.querySelector('.card__remove-button');
 
     if (this._owner._id === this._userInfo._id) {
-      this._btnDel.addEventListener('click', () => {
-        openPopup(popupConfirm);
+      this._btnDel.addEventListener('click', (evt) => {
+        this._handler.confirmDelCard();
         cardToDel = this._element;
       })
     } else {
@@ -55,9 +51,9 @@ class Card {
 
     this._btnLike.addEventListener('click', () => {
       if (this._btnLike.classList.contains('card__like-button_active')) {
-        delLikeHandler(this._id, this._likeCount, this._btnLike);
+        this._handler.delLikeHandler(this._id, this._likeCount, this._btnLike);
       } else {
-        setLikeHandler(this._id, this._likeCount, this._btnLike);
+        this._handler.setLikeHandler(this._id, this._likeCount, this._btnLike);
       }
     });
 
@@ -67,65 +63,11 @@ class Card {
   }
 }
 
-// function createCard(card, userInfo) {
-//   const cardElement = cardTemplate.querySelector('.card').cloneNode(true),
-//         cardImage = cardElement.querySelector('.card__image');
-//   cardImage.src = card.link;
-//   cardImage.alt = card.name;
-//   cardElement.querySelector('.card__description').textContent = card.name;
-//   cardElement.id = card._id;
-//   const btnLike = cardElement.querySelector('.card__like-button'),
-//         likeCount = cardElement.querySelector('.card__likes-count'),
-//         btnDel = cardElement.querySelector('.card__remove-button');
-
-//   if (card.owner._id === userInfo._id) {
-//     btnDel.addEventListener('click', () => {
-//       openPopup(popupConfirm);
-//       cardToDel = cardElement;
-//     });
-//   } else {
-//     btnDel.remove();
-//   }
-
-//   likeCount.textContent = card.likes.length;
-//   setActiveLike(card.likes, userInfo._id, btnLike);
-
-//   btnLike.addEventListener('click', () => {
-//     if (btnLike.classList.contains('card__like-button_active')) {
-//       delLike(card._id)
-//         .then((data) => {
-//           likeCount.textContent = data.likes.length;
-//           btnLike.classList.toggle('card__like-button_active');
-//         })
-//         .catch(err => {
-//           console.log(err);
-//         })
-//     } else {
-//       setLike(card._id)
-//         .then(data => {
-//           likeCount.textContent = data.likes.length;
-//           btnLike.classList.toggle('card__like-button_active');
-//         })
-//         .catch(err => {
-//           console.log(err);
-//         })
-//     }
-//   });
-
-
-//   cardImage.addEventListener('click', () => {
-//     showBigImg(card.name,card.link);
-//   });
-
-//    return cardElement;
-// };
-
 function renderCard(card) {
   cardsContainer.append(card);
 };
 
 export {
-  renderCard,
   cardToDel,
   Card
 }
