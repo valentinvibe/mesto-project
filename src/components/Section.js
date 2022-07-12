@@ -13,8 +13,8 @@ class Section {
     this._container.innerHTML = '';
   }
 
-  addItem(item) {
-    this._renderer(item);
+  setNewItem(item) {
+    this._container.prepend(item);
   }
 
   addItems() {

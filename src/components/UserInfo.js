@@ -1,31 +1,25 @@
-import { api } from '../index.js';
-
 class UserInfo {
-    constructor({nameSelector, bioSelector}) {
-        this._nameSelector = nameSelector;
-        this._bioSelector = bioSelector;
+    constructor(nameSelector, bioSelector, avatarSelector) {
+      this._nameSelector = nameSelector;
+      this._bioSelector = bioSelector;
+      this._avatarSelector = avatarSelector;
     }
 
-    async getUserInfo() {
-      return await api.getUserInfo()
-        .then(res => {
-          this.user = res;
-          return this.user
-        })
-        .catch(err => {
-          console.log(err)
-        })
+    getUserInfo() {
+      return {
+        'name' : this._nameSelector.textContent,
+        'about' : this._bioSelector.textContent
+      }
     }
 
     setUserInfo(user) {
-      api.setUserInfo(user.name, user.about)
-        .then(res => {
-          this._nameSelector.textContent = res.name;
-          this._bioSelector.textContent = res.about;
-        })
-        .catch(err => {
-          console.log(err)
-        })
+      this._nameSelector.textContent = user.name;
+      this._bioSelector.textContent = user.about;
+      this._avatarSelector.src = user.avatar;
+    }
+
+    setUserAvatar(user) {
+      this._avatarSelector.src = user.avatar;
     }
 }
 

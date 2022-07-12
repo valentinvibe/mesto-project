@@ -1,6 +1,3 @@
-import { cardsContainer } from "./constants.js";
-import { setActiveLike } from "./utils.js";
-
 let cardToDel = '';
 
 class Card {
@@ -32,6 +29,15 @@ class Card {
     return this._element
   }
 
+  _setActiveLike(likesArr, userId, likeBtn) {
+    likesArr.forEach(element => {
+      if (element._id === userId) {
+        likeBtn.classList.add('card__like-button_active');
+        return;
+      }
+    });
+  }
+
   _setEventListeners() {
     this._btnLike = this._element.querySelector('.card__like-button');
     this._likeCount = this._element.querySelector('.card__likes-count');
@@ -47,7 +53,7 @@ class Card {
     }
 
     this._likeCount.textContent = this._likes.length;
-    setActiveLike(this._likes, this._userInfo._id, this._btnLike);
+    this._setActiveLike(this._likes, this._userInfo._id, this._btnLike);
 
     this._btnLike.addEventListener('click', () => {
       if (this._btnLike.classList.contains('card__like-button_active')) {
@@ -62,10 +68,6 @@ class Card {
     });
   }
 }
-
-function renderCard(card) {
-  cardsContainer.append(card);
-};
 
 export {
   cardToDel,

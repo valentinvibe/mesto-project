@@ -47,14 +47,17 @@ class PopupWithImage extends Popup {
       this._popupImgDesc.textContent = item.name;
     }
 }
+
 class PopupWithForm extends Popup {
   constructor(popupSelector, handler) {
     super(popupSelector);
     this._handler = handler;
+    this._formElement = this._popupSelector.querySelector('.popup__form');
+    this._inputList = Array.from(this._formElement.querySelectorAll('.popup__input-field'));
+    this._btnSubmit = this._popupSelector.querySelector('.popup__submit-button');
   }
 
   _getInputValues() {
-    this._inputList = Array.from(this._formElement.querySelectorAll('.popup__input-field'));
     this._formValues = {};
     this._inputList.forEach(input => {
       this._formValues[input.name] = input.value;
@@ -68,9 +71,8 @@ class PopupWithForm extends Popup {
   }
 
   setEventListeners() {
-    this._formElement = this._popupSelector.querySelector('.popup__form');
-    const btnSubmit = this._popupSelector.querySelector('.popup__submit-button');
     super.setEventListeners();
+    console.log(this);
     this._formElement.addEventListener('submit', (e) => {
       e.preventDefault();
       const formData = this._getInputValues();
