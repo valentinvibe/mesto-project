@@ -23,7 +23,28 @@ const btnEditProfile = document.querySelector('.profile__edit-button'),
       popupAvatar = document.querySelector('.popup_new-avatar'),
       btnAvatarSubmit = popupAvatar.querySelector('.popup__submit-button'),
       formNewAvatar = popupAvatar.querySelector('form'),
-      avaLink = formNewAvatar.querySelector('.popup__input-field');
+      avaLink = formNewAvatar.querySelector('.popup__input-field'),
+      aPopup = document.querySelector('.popup');
+
+
+const config = {
+  baseUrl: 'https://nomoreparties.co/v1/plus-cohort-11',
+  headers: {
+    authorization: 'ae0b9021-b91d-4516-99a3-d1f2660c87bd',
+    'Content-Type': 'application/json'
+  }
+}
+
+const options = {
+    formSelector: '.popup__form',
+    inputSelector: '.popup__input-field',
+    submitButtonSelector: '.popup__submit-button',
+    inactiveButtonClass: 'popup__submit-button_inactive',
+    inputErrorClass: 'popup__input-field_type_error',
+    errorClass: 'popup__input-error_active'
+}
+
+
 
 export {
   btnEditProfile,
@@ -51,5 +72,8 @@ export {
   popupAvatar,
   btnAvatarSubmit,
   formNewAvatar,
-  avaLink
+  avaLink,
+  config,
+  aPopup,
+  options
 }
