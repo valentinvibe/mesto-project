@@ -5,7 +5,6 @@ import {
     btnAddNewPlace,
     newPlacePopup,
     formNewPlace,
-    formEditProfile,
     inputUserName,
     inputUserBio,
     titleProfile,
@@ -26,7 +25,8 @@ import { renderLoading } from "./components/utils.js"
 
 import {  Api } from "./components/Api.js";
 import { Section } from "./components/Section.js";
-import { Popup, PopupWithImage, PopupWithForm } from './components/Popup.js';
+import { PopupWithForm } from './components/PopupWithForm.js';
+import { PopupWithImage } from './components/PopupWithImage.js';
 import { FormValidator } from './components/FormValidator.js';
 import { UserInfo } from './components/UserInfo.js';
 
@@ -40,9 +40,6 @@ const api = new Api({
   }
 });
 const popupWithImage = new PopupWithImage(popupImage);
-const avatarPopupElement = new Popup(popupAvatar);
-
-
 
 const formValidators = {}
 
@@ -215,7 +212,7 @@ btnAddNewPlace.addEventListener('click', () => {
 });
 
 btnAvatarEdit.addEventListener('click', () => {
-  avatarPopupElement.open()
+  newAvatarPopupElement.open()
   formValidators['newAvatar'].resetValidation();
 });
 
