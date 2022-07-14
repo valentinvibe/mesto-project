@@ -51,4 +51,9 @@ npm i autoprefixer --save-dev
 npm i cssnano --save-dev
 ```
 
+Настройка Github Pages
+```
+npm install gh-pages --save-dev
+```
+
 
