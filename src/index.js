@@ -23,7 +23,7 @@ import { renderLoading } from "./components/utils.js"
 
 /* Классы */
 
-import {  Api } from "./components/Api.js";
+import { Api } from "./components/Api.js";
 import { Section } from "./components/Section.js";
 import { PopupWithForm } from './components/PopupWithForm.js';
 import { PopupWithImage } from './components/PopupWithImage.js';
@@ -40,7 +40,6 @@ const api = new Api({
   }
 });
 const popupWithImage = new PopupWithImage(popupImage);
-
 const formValidators = {}
 
 const enableValidation = (options) => {
