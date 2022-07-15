@@ -1,7 +1,6 @@
 class Popup {
   constructor(popupSelector) {
     this._popupSelector = popupSelector;
-    this.setEventListeners();
     this._handleEsc = this._handleEscClose.bind(this);
   }
 

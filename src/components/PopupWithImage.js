@@ -5,6 +5,7 @@ class PopupWithImage extends Popup {
     super(popupSelector);
     this._bigImage = this._popupSelector.querySelector('.popup__big-img');
     this._popupImgDesc = this._popupSelector.querySelector('.popup__img-description');
+    super.setEventListeners();
   }
 
   open(item) {
